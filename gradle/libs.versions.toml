@@ -1,0 +1,12 @@
+[versions]
+kotlin = "2.1.21"
+jSystemThemeDetector = "3.9.1"
+flatLaf = "3.6"
+
+[libraries]
+jSystemThemeDetector = { module = "com.github.Dansoftowner:jSystemThemeDetector", version.ref = "jSystemThemeDetector" }
+flatLaf = { module = "com.formdev:flatlaf", version.ref = "flatLaf" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -1,0 +1,3 @@
+package kotlessing
+
+interface Keyboard
