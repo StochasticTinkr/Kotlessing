@@ -1,6 +1,6 @@
 package kotlessing
 
-import java.awt.geom.Path2D
+import java.awt.geom.*
 
 @PublishedApi
 internal class AwtShapeBuilder() : ShapeBuilder {
@@ -17,17 +17,17 @@ internal class AwtShapeBuilder() : ShapeBuilder {
         path.closePath()
     }
 
-    override fun quadTo(x: Float, y: Float, controlX: Float, controlY: Float) {
+    override fun quadTo(controlX: Float, controlY: Float, x: Float, y: Float) {
         path.quadTo(controlX, controlY, x, y)
     }
 
     override fun cubicTo(
-        x: Float,
-        y: Float,
         controlX1: Float,
         controlY1: Float,
         controlX2: Float,
         controlY2: Float,
+        x: Float,
+        y: Float,
     ) {
         path.curveTo(controlX1, controlY1, controlX2, controlY2, x, y)
     }
