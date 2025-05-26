@@ -3,12 +3,13 @@ package com.stochastictinkr.kotlessing
 import kotlessing.*
 import kotlessing.Shape
 import java.awt.*
-import kotlin.time.Duration
+import kotlin.time.*
+import java.awt.Color as AwtColor
 
 class AwtDrawContext(
     private val g2d: Graphics2D,
     override val width: Float, override val height: Float,
-    override val time: Duration
+    override val time: Duration,
 ) : DrawContext {
     override fun hints(hints: HintBuilder.() -> Unit) {
         Graphics2dHintBuilder(g2d).hints()
@@ -49,11 +50,11 @@ class AwtDrawContext(
     }
 
     override fun color(r: Float, g: Float, b: Float, a: Float) {
-        g2d.color = Color(r, g, b, a)
+        g2d.color = AwtColor(r, g, b, a)
     }
 
     override fun color(r: Int, g: Int, b: Int, a: Int) {
-        g2d.color = Color(r, g, b, a)
+        g2d.color = AwtColor(r, g, b, a)
     }
 
     override val mouse: Mouse

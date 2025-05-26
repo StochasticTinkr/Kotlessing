@@ -15,6 +15,8 @@ interface DrawContext : Inputs {
     fun hints(hints: HintBuilder.() -> Unit)
     fun color(r: Int, g: Int, b: Int, a: Int = 255)
     fun color(r: Float, g: Float, b: Float, a: Float = 1f)
+    fun color(color: Color) = color(color.r, color.g, color.b, color.a)
+
     fun stroke(
         width: Float = 1f,
         cap: StrokeCap = Butt,

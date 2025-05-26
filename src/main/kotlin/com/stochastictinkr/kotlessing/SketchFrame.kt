@@ -2,6 +2,7 @@ package com.stochastictinkr.kotlessing
 
 import kotlessing.*
 import java.awt.*
+import java.awt.Color as AWTColor
 import javax.swing.*
 
 class SketchFrame {
@@ -35,7 +36,7 @@ class SketchFrame {
                 }
 
                 override fun background(r: Float, g: Float, b: Float) {
-                    canvas.background = Color(r, g, b)
+                    canvas.background = AWTColor(r, g, b)
                 }
 
                 override fun frameRate(rate: Int) {

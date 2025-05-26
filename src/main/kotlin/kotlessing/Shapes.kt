@@ -46,6 +46,59 @@ sealed class RectangularShapeFactory<S : RectangularShape, Framed>(
 
         infix fun withSideLength(length: Float) = withSize(length, length)
     }
+
+    fun byCenter(
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float,
+    ) = centeredAt(x, y).withSize(width, height)
+
+    fun squaredByCenter(
+        x: Float,
+        y: Float,
+        sideLength: Float,
+    ) = centeredAt(x, y).withSideLength(sideLength)
+
+    fun byCenter(
+        point: Point,
+        size: Size,
+    ) = centeredAt(point).withSize(size)
+
+    fun byDiagonal(
+        x1: Float,
+        y1: Float,
+        x2: Float,
+        y2: Float,
+    ) = from(x1, y1).diagonallyTo(x2, y2)
+
+    fun byDiagonal(
+        point1: Point,
+        point2: Point,
+    ) = from(point1).diagonallyTo(point2)
+
+    fun byCorner(
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float,
+    ) = from(x, y).withSize(width, height)
+
+    fun byCorner(
+        point: Point,
+        size: Size,
+    ) = from(point).withSize(size)
+
+    fun squaredByCorner(
+        x: Float,
+        y: Float,
+        sideLength: Float,
+    ) = from(x, y).withSideLength(sideLength)
+
+    fun squaredByCorner(
+        point: Point,
+        sideLength: Float,
+    ) = from(point).withSideLength(sideLength)
 }
 
 data object Rectangle : RectangularShapeFactory<Rectangle2D, Shape>({ Shape(Rectangle2D.Float().also(it)) })
@@ -68,4 +121,135 @@ data object RoundRectangle : RectangularShapeFactory<RoundRectangle2D.Float, Rou
 
         infix fun withCornerRadius(size: Size) = withCornerRadius(size.width, size.height)
     }
+
+    // Same methods as the parent class, but with the corner radius parameters:
+
+    fun byCenter(
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = centeredAt(x, y).withSize(width, height).withCornerRadius(arcWidth, arcHeight)
+
+    fun byCenter(
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float,
+        cornerRadius: Float,
+    ) = centeredAt(x, y).withSize(width, height).withCornerRadius(cornerRadius)
+
+    fun squaredByCenter(
+        x: Float,
+        y: Float,
+        sideLength: Float,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = centeredAt(x, y).withSideLength(sideLength).withCornerRadius(arcWidth, arcHeight)
+
+    fun squaredByCenter(
+        x: Float,
+        y: Float,
+        sideLength: Float,
+        cornerRadius: Float,
+    ) = centeredAt(x, y).withSideLength(sideLength).withCornerRadius(cornerRadius)
+
+    fun byCenter(
+        point: Point,
+        size: Size,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = centeredAt(point).withSize(size).withCornerRadius(arcWidth, arcHeight)
+
+    fun byCenter(
+        point: Point,
+        size: Size,
+        cornerRadius: Float,
+    ) = centeredAt(point).withSize(size).withCornerRadius(cornerRadius)
+
+    fun byDiagonal(
+        x1: Float,
+        y1: Float,
+        x2: Float,
+        y2: Float,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = from(x1, y1).diagonallyTo(x2, y2).withCornerRadius(arcWidth, arcHeight)
+
+    fun byDiagonal(
+        x1: Float,
+        y1: Float,
+        x2: Float,
+        y2: Float,
+        cornerRadius: Float,
+    ) = from(x1, y1).diagonallyTo(x2, y2).withCornerRadius(cornerRadius)
+
+    fun byDiagonal(
+        point1: Point,
+        point2: Point,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = from(point1).diagonallyTo(point2).withCornerRadius(arcWidth, arcHeight)
+
+    fun byDiagonal(
+        point1: Point,
+        point2: Point,
+        cornerSize: Size,
+    ) = from(point1).diagonallyTo(point2).withCornerRadius(cornerSize)
+
+    fun byDiagonal(
+        point1: Point,
+        point2: Point,
+        cornerRadius: Float,
+    ) = from(point1).diagonallyTo(point2).withCornerRadius(cornerRadius)
+
+    fun byCorner(
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = from(x, y).withSize(width, height).withCornerRadius(arcWidth, arcHeight)
+
+    fun byCorner(
+        point: Point,
+        size: Size,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = from(point).withSize(size).withCornerRadius(arcWidth, arcHeight)
+
+    fun byCorner(
+        point: Point,
+        size: Size,
+        cornerRadius: Float,
+    ) = from(point).withSize(size).withCornerRadius(cornerRadius)
+
+    fun byCorner(
+        point: Point,
+        size: Size,
+        cornerSize: Size,
+    ) = from(point).withSize(size).withCornerRadius(cornerSize)
+
+    fun squaredByCorner(
+        x: Float,
+        y: Float,
+        sideLength: Float,
+        arcWidth: Float,
+        arcHeight: Float,
+    ) = from(x, y).withSideLength(sideLength).withCornerRadius(arcWidth, arcHeight)
+
+    fun squaredByCorner(
+        point: Point,
+        sideLength: Float,
+        cornerRadius: Float,
+    ) = from(point).withSideLength(sideLength).withCornerRadius(cornerRadius)
+
+    fun squaredByCorner(
+        point: Point,
+        sideLength: Float,
+        cornerSize: Size,
+    ) = from(point).withSideLength(sideLength).withCornerRadius(cornerSize)
 }
