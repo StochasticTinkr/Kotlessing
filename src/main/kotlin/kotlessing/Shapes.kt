@@ -13,14 +13,14 @@ sealed class RectangularShapeFactory<S : RectangularShape, Framed>(
 
     infix fun from(point: Point) = from(point.x, point.y)
 
-    fun centeredAt(point: Point) = centeredAt(point.x, point.y)
+    infix fun centeredAt(point: Point) = centeredAt(point.x, point.y)
     fun centeredAt(x: Float, y: Float) = CenteredAt(x, y)
 
     inner class From(val x: Float, val y: Float) {
         infix fun diagonallyTo(point: Point) = diagonallyTo(point.x, point.y)
 
         fun diagonallyTo(x: Float, y: Float) = make {
-            it.setFrameFromDiagonal(x.toDouble(), y.toDouble(), x.toDouble(), y.toDouble())
+            it.setFrameFromDiagonal(this.x.toDouble(), this.y.toDouble(), x.toDouble(), y.toDouble())
         }
 
         infix fun withSize(size: Size) = withSize(size.width, size.height)
@@ -35,7 +35,7 @@ sealed class RectangularShapeFactory<S : RectangularShape, Framed>(
     inner class CenteredAt(val x: Float, val y: Float) {
         infix fun withCorner(point: Point) = withCorner(point.x, point.y)
         fun withCorner(x: Float, y: Float) = make {
-            it.setFrameFromCenter(x.toDouble(), y.toDouble(), x.toDouble(), y.toDouble())
+            it.setFrameFromCenter(this.x.toDouble(), this.y.toDouble(), x.toDouble(), y.toDouble())
         }
 
         infix fun withSize(size: Size) = withSize(size.width, size.height)

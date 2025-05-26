@@ -1,7 +1,14 @@
 package kotlessing
 
+import kotlin.time.Duration
+
 @SketchDsl
 interface DrawContext : Inputs {
+    val time: Duration
+    val width: Float
+    val height: Float
+    val size: Size get() = Size(width, height)
+
     fun centerAt(x: Float, y: Float)
     fun rotate(angle: Float, x: Float = 0f, y: Float = 0f)
     fun rotate(angle: Float, around: Point) = rotate(angle, around.x, around.y)

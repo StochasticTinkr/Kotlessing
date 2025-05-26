@@ -1,6 +1,5 @@
 package com.stochastictinkr.kotlessing.examples
 
-import com.stochastictinkr.kotlessing.*
 import kotlessing.*
 import kotlin.math.*
 

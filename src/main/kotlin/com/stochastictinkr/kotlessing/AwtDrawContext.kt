@@ -3,8 +3,13 @@ package com.stochastictinkr.kotlessing
 import kotlessing.*
 import kotlessing.Shape
 import java.awt.*
+import kotlin.time.Duration
 
-class AwtDrawContext(private val g2d: Graphics2D, val width: Int, val height: Int) : DrawContext {
+class AwtDrawContext(
+    private val g2d: Graphics2D,
+    override val width: Float, override val height: Float,
+    override val time: Duration
+) : DrawContext {
     override fun hints(hints: HintBuilder.() -> Unit) {
         Graphics2dHintBuilder(g2d).hints()
     }
