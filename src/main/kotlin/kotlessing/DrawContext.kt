@@ -2,7 +2,9 @@ package kotlessing
 
 @SketchDsl
 interface DrawContext : Inputs {
+    fun centerAt(x: Float, y: Float)
     fun rotate(angle: Float, x: Float = 0f, y: Float = 0f)
+    fun rotate(angle: Float, around: Point) = rotate(angle, around.x, around.y)
     fun hints(hints: HintBuilder.() -> Unit)
     fun color(r: Int, g: Int, b: Int, a: Int = 255)
     fun color(r: Float, g: Float, b: Float, a: Float = 1f)
@@ -13,8 +15,13 @@ interface DrawContext : Inputs {
         dash: Dash = Solid,
     )
 
-    fun fill(shapeBuilder: ShapeBuilder.() -> Unit)
-    fun draw(shapeBuilder: ShapeBuilder.() -> Unit)
+    fun fill(shapeBuilder: ShapeBuilder.() -> Unit) =
+        fill(Shape { shapeBuilder() })
+    fun draw(shapeBuilder: ShapeBuilder.() -> Unit) =
+        draw(Shape { shapeBuilder() })
+
+    fun fill(shape: Shape)
+    fun draw(shape: Shape)
 }
 
 sealed interface StrokeCap

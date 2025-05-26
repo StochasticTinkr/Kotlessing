@@ -12,7 +12,7 @@ class SketchCanvas : Component() {
         g2d.background = background
         g2d.clearRect(0, 0, width, height)
         sketch?.run {
-            AwtDrawContext(g2d).draw()
+            AwtDrawContext(g2d, width, height).draw()
         }
     }
 }

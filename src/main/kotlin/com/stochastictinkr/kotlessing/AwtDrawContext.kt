@@ -1,38 +1,27 @@
 package com.stochastictinkr.kotlessing
 
-import kotlessing.Bevel
-import kotlessing.Butt
-import kotlessing.Dash
-import kotlessing.DrawContext
-import kotlessing.HintBuilder
-import kotlessing.Keyboard
-import kotlessing.Miter
-import kotlessing.Mouse
-import kotlessing.Round
-import kotlessing.ShapeBuilder
-import kotlessing.Square
-import kotlessing.StrokeCap
-import kotlessing.StrokeJoin
-import java.awt.BasicStroke
-import java.awt.Color
-import java.awt.Graphics2D
+import kotlessing.*
+import kotlessing.Shape
+import java.awt.*
 
-class AwtDrawContext(private val g2d: Graphics2D) : DrawContext {
+class AwtDrawContext(private val g2d: Graphics2D, val width: Int, val height: Int) : DrawContext {
     override fun hints(hints: HintBuilder.() -> Unit) {
         Graphics2dHintBuilder(g2d).hints()
+    }
+
+    override fun centerAt(x: Float, y: Float) {
+        g2d.translate(
+            (width / 2 - x).toDouble(),
+            (height / 2 - y).toDouble(),
+        )
     }
 
     override fun rotate(angle: Float, x: Float, y: Float) {
         g2d.rotate(angle.toDouble(), x.toDouble(), y.toDouble())
     }
 
-    override fun draw(shapeBuilder: ShapeBuilder.() -> Unit) {
-        g2d.draw(toShape(shapeBuilder))
-    }
-
-    override fun fill(shapeBuilder: ShapeBuilder.() -> Unit) {
-        g2d.fill(toShape(shapeBuilder))
-    }
+    override fun fill(shape: Shape) = g2d.fill(shape.awtShape)
+    override fun draw(shape: Shape) = g2d.draw(shape.awtShape)
 
     override fun stroke(
         width: Float,
