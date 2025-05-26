@@ -3,7 +3,7 @@ package com.stochastictinkr.kotlessing.examples
 import kotlessing.*
 import kotlin.math.*
 
-private const val period = 2000f
+private const val period = 1000f
 
 fun main() = runSketch {
     init {
@@ -15,21 +15,23 @@ fun main() = runSketch {
 
     fun pulse(millis: Float): Float {
 
-        // Wrap the time into the current beat window.
-        val t = (millis % period + period) % period
+        // Fold the global time into the current beat window.
+        val t = ((millis % period) + period) % period
 
-        // Helper producing a Gaussian bump.
+        // Gaussian helper.
         fun gauss(center: Float, width: Float, amp: Float): Float {
             val x = (t - center) / width
             return amp * exp(-x * x)
         }
 
         // Rough physiological timings (in ms) and relative amplitudes.
-        val pWave = gauss(center = 100f, width = 30f, amp = 0.2f)
-        val qrs   = gauss(center = 300f, width = 20f, amp = 1.0f)
-        val tWave = gauss(center = 600f, width = 60f, amp = 0.35f)
+        val p = gauss(center = 120f, width = 25f * 2, amp = 0.15f)
+        val q = gauss(center = 250f, width = 15f * 2, amp = -0.15f)
+        val r = gauss(center = 300f, width = 12f * 2, amp = 1.00f)
+        val s = gauss(center = 340f, width = 18f * 2, amp = -0.25f)
+        val tWave = gauss(center = 600f, width = 70f, amp = 0.35f)
 
-        return (pWave + qrs + tWave).coerceIn(0f, 1f)
+        return (p + q + r + s + tWave).coerceIn(-1f, 1f)
     }
 
     draw {
@@ -37,11 +39,13 @@ fun main() = runSketch {
             antialiasing()
             rendering(Quality)
         }
-        val time = time.inWholeMilliseconds.toFloat()
-        // Simulate a heartbeat-like pulse effect.  One large pulse, then a smaller one.
-
         centerAt(0f, 0f)
-        color(1f, 0.5f, 0.5f, 1f) // Light red color for the pulse
-        fill(Ellipse centeredAt Point(0f, 0f) withSideLength (200 + pulse(time) * 20f))
+        color(0.8f, 0.45f, 0.45f)
+        val pulse = pulse(time.inWholeMilliseconds.toFloat())
+        val shape = Ellipse centeredAt Point(0f, 0f) withSideLength (200 + pulse * 60f)
+        fill(shape)
+        stroke(width = 4f)
+        color(0.5f, 0.2f, 0.3f)
+        draw(shape)
     }
 }
