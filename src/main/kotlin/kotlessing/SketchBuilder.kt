@@ -7,8 +7,4 @@ interface SketchBuilder {
     fun update(block: UpdateContext.() -> Unit)
 
     fun draw(block: DrawContext.() -> Unit)
-
-    fun afterDraw(block: AfterDrawContext.() -> Unit)
 }
-
-

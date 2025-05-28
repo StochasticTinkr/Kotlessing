@@ -4,14 +4,12 @@ interface Sketch {
     fun InitContext.init()
     fun UpdateContext.update()
     fun DrawContext.draw()
-    fun AfterDrawContext.afterDraw()
 
     companion object {
         inline operator fun invoke(block: SketchBuilder.() -> Unit): Sketch {
             var initBlock: InitContext.() -> Unit = {}
             var updateBlock: UpdateContext.() -> Unit = {}
             var drawBlock: DrawContext.() -> Unit = {}
-            var afterDrawBlock: AfterDrawContext.() -> Unit = {}
 
             val builder = object : SketchBuilder {
                 override fun init(block: InitContext.() -> Unit) {
@@ -26,9 +24,6 @@ interface Sketch {
                     drawBlock = block
                 }
 
-                override fun afterDraw(block: AfterDrawContext.() -> Unit) {
-                    afterDrawBlock = block
-                }
             }
 
             block(builder)
@@ -43,10 +38,6 @@ interface Sketch {
 
                 override fun DrawContext.draw() {
                     drawBlock()
-                }
-
-                override fun AfterDrawContext.afterDraw() {
-                    afterDrawBlock()
                 }
             }
         }
