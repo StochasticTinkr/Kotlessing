@@ -12,6 +12,4 @@ interface Mouse {
 
 interface MouseButton {
     val isPressed: Boolean
-    val isClicked: Boolean
-    val clickedAt: Point?
 }

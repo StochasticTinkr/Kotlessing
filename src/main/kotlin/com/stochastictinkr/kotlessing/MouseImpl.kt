@@ -6,43 +6,39 @@ import java.awt.event.*
 class MouseImpl() : Mouse {
     override var position: Point = Point(0f, 0f)
         private set
-    override val left = MouseButtonImpl()
-    override val right = MouseButtonImpl()
-    override val middle = MouseButtonImpl()
 
-    private val buttons = listOf(null, left, right, middle)
+    private val leftImpl = MouseButtonImpl()
+    private val rightImpl = MouseButtonImpl()
+    private val middleImpl = MouseButtonImpl()
+
+    override val left: MouseButton = leftImpl;
+    override val right: MouseButton = rightImpl;
+    override val middle: MouseButton = middleImpl;
+
+    private val buttons = listOf(null, leftImpl, rightImpl, middleImpl)
 
     val adapter = object : MouseAdapter() {
-        override fun mouseMoved(e: MouseEvent) = setPosition(e)
-        override fun mouseDragged(e: MouseEvent) = setPosition(e)
+        override fun mouseMoved(e: MouseEvent) {
+            position = e.position()
+        }
+
+        override fun mouseDragged(e: MouseEvent) {
+            position = e.position()
+        }
+
         override fun mousePressed(e: MouseEvent) {
-            buttons.getOrNull(e.button)?.isPressed = true
+            e.button().isPressed = true
         }
 
         override fun mouseReleased(e: MouseEvent) {
-            buttons.getOrNull(e.button)?.isPressed = false
-        }
-
-        override fun mouseClicked(e: MouseEvent) {
-            buttons.getOrNull(e.button)?.apply {
-                isClicked = true
-                clickedAt = e.position()
-            }
+            e.button().isPressed = false
         }
     }
 
-    private fun setPosition(e: MouseEvent) {
-        position = e.position()
-    }
-
+    private fun MouseEvent.button(): MouseButtonImpl = buttons.getOrNull(button) ?: MouseButtonImpl()
     private fun MouseEvent.position(): Point = Point(this.x.toFloat(), this.y.toFloat())
 }
 
-class MouseButtonImpl() : MouseButton {
+private class MouseButtonImpl() : MouseButton {
     override var isPressed: Boolean = false
-    override var isClicked: Boolean = false
-        get() = field.also {
-            field = false // Reset after being checked
-        }
-    override var clickedAt: Point? = null
 }
