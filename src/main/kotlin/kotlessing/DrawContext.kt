@@ -10,8 +10,11 @@ interface DrawContext : Inputs {
     val size: Size get() = Size(width, height)
 
     fun centerAt(x: Float, y: Float)
+    fun centerAt(around: Point) = centerAt(around.x, around.y)
     fun rotate(angle: Float, x: Float = 0f, y: Float = 0f)
     fun rotate(angle: Float, around: Point) = rotate(angle, around.x, around.y)
+    fun translate(x: Float, y: Float)
+    fun translate(point: Point) = translate(point.x, point.y)
     fun hints(hints: HintBuilder.() -> Unit)
     fun color(r: Int, g: Int, b: Int, a: Int = 255)
     fun color(r: Float, g: Float, b: Float, a: Float = 1f)

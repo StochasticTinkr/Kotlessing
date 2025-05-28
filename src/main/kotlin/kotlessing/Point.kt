@@ -10,4 +10,6 @@ value class Point(val vec2: Vec2) {
     operator fun component2(): Float = vec2.y
     operator fun plus(vec2: Vec2) = Point(this.vec2 + vec2)
     operator fun minus(vec2: Vec2) = Point(this.vec2 - vec2)
+
+    operator fun unaryMinus() = Point(-this.vec2)
 }

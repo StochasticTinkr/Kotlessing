@@ -2,12 +2,13 @@ package com.stochastictinkr.kotlessing
 
 import kotlessing.*
 import java.awt.*
-import java.awt.Color as AWTColor
 import javax.swing.*
+import java.awt.Color as AWTColor
 
 class SketchFrame {
     private val frame: JFrame = JFrame("Kotlessing Sketch")
-    private val canvas: SketchCanvas = SketchCanvas()
+    private val inputs = InputsImpl()
+    private val canvas: SketchCanvas = SketchCanvas(inputs)
     var sketch: Sketch? = null
         set(value) {
             field = value
@@ -28,7 +29,7 @@ class SketchFrame {
         sketch?.run {
             object : InitContext {
                 override fun name(name: String) {
-                    frame.name = name
+                    frame.title = name
                 }
 
                 override fun size(width: Int, height: Int) {
@@ -49,12 +50,7 @@ class SketchFrame {
         if (frameRate > 0) {
             Timer(1000 / frameRate) {
                 sketch?.run {
-                    object : UpdateContext {
-                        override val mouse: Mouse
-                            get() = TODO("Not yet implemented")
-                        override val keyboard: Keyboard
-                            get() = TODO("Not yet implemented")
-                    }.update()
+                    AwtUpdateContext(inputs).update()
                 }
                 canvas.repaint()
 
@@ -64,4 +60,6 @@ class SketchFrame {
         frame.isVisible = true
     }
 }
+
+class AwtUpdateContext(inputs: Inputs) : UpdateContext, Inputs by inputs
 

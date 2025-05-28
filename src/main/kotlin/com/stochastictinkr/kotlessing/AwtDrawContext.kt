@@ -10,20 +10,22 @@ class AwtDrawContext(
     private val g2d: Graphics2D,
     override val width: Float, override val height: Float,
     override val time: Duration,
-) : DrawContext {
+    inputs: Inputs,
+) : DrawContext, Inputs by inputs {
     override fun hints(hints: HintBuilder.() -> Unit) {
         Graphics2dHintBuilder(g2d).hints()
     }
 
     override fun centerAt(x: Float, y: Float) {
-        g2d.translate(
-            (width / 2 - x).toDouble(),
-            (height / 2 - y).toDouble(),
-        )
+        translate((width / 2 - x), (height / 2 - y))
     }
 
     override fun rotate(angle: Float, x: Float, y: Float) {
         g2d.rotate(angle.toDouble(), x.toDouble(), y.toDouble())
+    }
+
+    override fun translate(x: Float, y: Float) {
+        g2d.translate(x.toDouble(), y.toDouble())
     }
 
     override fun fill(shape: Shape) = g2d.fill(shape.awtShape)
@@ -56,9 +58,5 @@ class AwtDrawContext(
     override fun color(r: Int, g: Int, b: Int, a: Int) {
         g2d.color = AwtColor(r, g, b, a)
     }
-
-    override val mouse: Mouse
-        get() = TODO("Not yet implemented")
-    override val keyboard: Keyboard
-        get() = TODO("Not yet implemented")
 }
+

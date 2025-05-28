@@ -8,6 +8,7 @@ data class Vec2(val x: Float, val y: Float) {
     operator fun minus(other: Vec2): Vec2 = Vec2(x - other.x, y - other.y)
     operator fun times(scalar: Float): Vec2 = Vec2(x * scalar, y * scalar)
     operator fun div(scalar: Float): Vec2 = Vec2(x / scalar, y / scalar)
+    operator fun unaryMinus(): Vec2 = Vec2(-x, -y)
 
     infix fun dot(other: Vec2): Float = x * other.x + y * other.y
 
