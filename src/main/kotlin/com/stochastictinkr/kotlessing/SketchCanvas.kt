@@ -5,7 +5,7 @@ import java.awt.*
 import kotlin.time.*
 import kotlin.time.Duration.Companion.milliseconds
 
-class SketchCanvas(val inputs: InputsImpl) : Component() {
+internal class SketchCanvas (private val inputs: InputsImpl) : Component() {
     private var startTime: Long = 0L
 
     init {

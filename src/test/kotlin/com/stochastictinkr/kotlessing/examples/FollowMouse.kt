@@ -15,7 +15,6 @@ fun main() {
         }
 
         var angle = 0f
-
         var color = Color(0f, 0f, 1f)
 
         update {
@@ -23,7 +22,7 @@ fun main() {
             if (angle > fullCircle) {
                 angle -= fullCircle
             }
-            if (mouse.left.isPressed) {
+            mouse.left.onClick {
                 color = Color(
                     (0..255).random(),
                     (0..255).random(),
@@ -31,7 +30,6 @@ fun main() {
                 )
             }
         }
-
 
         draw {
             hints {
