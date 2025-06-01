@@ -1,9 +1,6 @@
 package com.stochastictinkr.kotlessing.examples
 
 import kotlessing.*
-import kotlin.math.*
-
-private const val fullCircle = 2 * Math.PI.toFloat()
 
 fun main() {
     runSketch {
@@ -14,21 +11,35 @@ fun main() {
             frameRate(60)
         }
 
-        var angle = 0f
-        var color = Color(0f, 0f, 1f)
+        val positions = ArrayDeque<Point>()
+
+        val colors = (0..15).map { it ->
+            Color.hsb(
+                hue = it / 16f,
+                saturation = 1f,
+                brightness = 1f,
+            )
+        }
+
+        var previous = Point(400f, 300f)
+
+        fun lerp(start: Float, end: Float, t: Float): Float {
+            return start + (end - start) * t
+        }
 
         update {
-            angle += 0.10f
-            if (angle > fullCircle) {
-                angle -= fullCircle
+            val times = 10
+            val maxTrailLength = 1000
+            repeat(times) {
+                val t = it / times.toFloat()
+                val x = lerp(previous.x, mouse.x, t)
+                val y = lerp(previous.y, mouse.y, t)
+                positions.addFirst(Point(x, y))
+                if (positions.size > maxTrailLength) {
+                    positions.removeLast()
+                }
             }
-            mouse.left.onClick {
-                color = Color(
-                    (0..255).random(),
-                    (0..255).random(),
-                    (0..255).random()
-                )
-            }
+            previous = mouse.position
         }
 
         draw {
@@ -36,22 +47,18 @@ fun main() {
                 antialiasing()
                 rendering(Quality)
             }
-            val equilateralTriangle = Shape {
-                val sideLength = 200f
-                val height = (sqrt(3f) / 2) * sideLength
-                val halfBase = sideLength / 2
-                moveTo(-halfBase, -height / 3)
-                lineTo(halfBase, -height / 3)
-                lineTo(0f, height * 2 / 3)
-                close()
+
+            color(0.5f, 0.5f, 0.5f)
+            positions.forEachIndexed { idx, it ->
+                fill(Ellipse centeredAt it withSideLength 2f)
             }
-            translate(mouse.position)
-            rotate(angle)
-            color(color)
-            fill(equilateralTriangle)
-            stroke(width = 4f, cap = Stroke.Cap.Round, join = Stroke.Join.Round)
-            color(.25f, .25f, .25f)
-            draw(equilateralTriangle)
+
+            colors.forEachIndexed { index, color ->
+                val positionIdx = (index * positions.size / colors.size) % positions.size
+                val position = positions[positionIdx]
+                color(color)
+                fill(Ellipse centeredAt position withSideLength (100f - index * 5f))
+            }
         }
     }
 }
