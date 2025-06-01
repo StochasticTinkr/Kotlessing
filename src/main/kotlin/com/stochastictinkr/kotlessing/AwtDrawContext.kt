@@ -62,5 +62,29 @@ class AwtDrawContext(
     override fun color(r: Int, g: Int, b: Int, a: Int) {
         g2d.color = AwtColor(r, g, b, a)
     }
+
+    override fun text(position: TextPosition, text: String) {
+        val (x, y) = position.vec2
+        val fontMetrics = g2d.fontMetrics
+        val inlineOffset = when (position.inlineAnchor) {
+            InlineAnchor.Start -> 0f
+            InlineAnchor.Center -> -fontMetrics.stringWidth(text) / 2f
+            InlineAnchor.End -> -fontMetrics.stringWidth(text).toFloat()
+        }
+        val blockOffset = when (position.blockAnchor) {
+            BlockAnchor.Start -> 0f
+            BlockAnchor.Center -> fontMetrics.ascent / 2f
+            BlockAnchor.End -> fontMetrics.ascent.toFloat()
+            BlockAnchor.Baseline -> fontMetrics.ascent.toFloat()
+            is BlockAnchor.BaselineOffset -> fontMetrics.ascent + position.blockAnchor.offset
+        }
+        g2d.drawString(text, x + inlineOffset, y + blockOffset)
+    }
+
+    override fun textCenteredAt(x: Float, y: Float, text: String) {
+        text(
+            TextPosition(x, y, InlineAnchor.Center, BlockAnchor.Center), text
+        )
+    }
 }
 

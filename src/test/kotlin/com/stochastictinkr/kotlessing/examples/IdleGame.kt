@@ -72,11 +72,16 @@ fun main() = runSketch {
             rendering(Quality)
         }
 
+        text(
+            position = TextPosition(10f, 20f, inlineAnchor = InlineAnchor.Start, blockAnchor = BlockAnchor.Baseline),
+            text = "Score: ${score.toInt()}"
+        )
+
         // Draw resources
         resources.forEach { resource ->
             val shape = Rectangle.byDiagonal(
-                resource.left, (1 - resource.count / 100f).coerceIn(0f, 1f) * (height - 10f),
-                resource.right, height - 10f
+                resource.left, (1 - resource.count / 100f).coerceIn(0f, 1f) * (height - 40f),
+                resource.right, height - 40f
             )
             color(resource.color)
             fill(shape)
@@ -87,6 +92,21 @@ fun main() = runSketch {
                 color(0.5f, 0.5f, 0.5f) // Darker color for unaffordable resources
             }
             draw(shape)
+
+            if (resource.price < score) {
+                color(1f, 1f, 1f) // White text for affordable resources
+            } else {
+                color(0.5f, 0.5f, 0.5f) // Gray text for unaffordable resources
+            }
+            text(
+                position = TextPosition(
+                    (resource.left + resource.right) / 2f,
+                    height - 20f,
+                    inlineAnchor = InlineAnchor.Center,
+                    blockAnchor = BlockAnchor.Baseline
+                ),
+                text = "${resource.price}"
+            )
         }
     }
 }

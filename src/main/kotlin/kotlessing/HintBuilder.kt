@@ -2,7 +2,15 @@ package kotlessing
 
 @SketchDsl
 interface HintBuilder {
-    fun antialiasing(enabled: Boolean = true)
+    fun shapeAntialiasing(enabled: Boolean = true)
+    fun textAntialiasing(enabled: Boolean = true)
+    fun antialiasing(
+        shape: Boolean = true,
+        text: Boolean = true,
+    ) {
+        shapeAntialiasing(shape)
+        textAntialiasing(text)
+    }
     fun rendering(rendering: Rendering)
 }
 

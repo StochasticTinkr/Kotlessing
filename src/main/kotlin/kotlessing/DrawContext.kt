@@ -1,6 +1,6 @@
 package kotlessing
 
-import kotlin.time.Duration
+import kotlin.time.*
 
 @SketchDsl
 interface DrawContext : Inputs {
@@ -29,9 +29,41 @@ interface DrawContext : Inputs {
 
     fun fill(shapeBuilder: ShapeBuilder.() -> Unit) =
         fill(Shape { shapeBuilder() })
+
     fun draw(shapeBuilder: ShapeBuilder.() -> Unit) =
         draw(Shape { shapeBuilder() })
 
     fun fill(shape: Shape)
     fun draw(shape: Shape)
+
+    fun text(
+        position: TextPosition,
+        text: String,
+    )
+
+    fun text(
+        x: Float,
+        y: Float,
+        inlineAnchor: InlineAnchor = InlineAnchor.Start,
+        blockAnchor: BlockAnchor = BlockAnchor.Baseline,
+        text: String,
+    ) = text(TextPosition(x, y, inlineAnchor, blockAnchor), text)
+
+    fun textCenteredAt(
+        x: Float,
+        y: Float,
+        text: String,
+    )
+
+    fun textCenteredAt(
+        around: Point,
+        text: String,
+    ) = textCenteredAt(around.x, around.y, text)
+
+    fun text(
+        point: Point,
+        inlineAnchor: InlineAnchor = InlineAnchor.Start,
+        blockAnchor: BlockAnchor = BlockAnchor.Baseline,
+        text: String,
+    ) = text(point.x, point.y, inlineAnchor, blockAnchor, text)
 }

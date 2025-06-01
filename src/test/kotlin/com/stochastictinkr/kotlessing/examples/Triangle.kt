@@ -25,7 +25,7 @@ fun main() {
 
         draw {
             hints {
-                antialiasing()
+                shapeAntialiasing()
                 rendering(Quality)
             }
             centerAt(0f, 0f)

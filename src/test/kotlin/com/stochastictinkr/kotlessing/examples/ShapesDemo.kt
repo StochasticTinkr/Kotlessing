@@ -14,7 +14,7 @@ fun main() {
 
         draw {
             hints {
-                antialiasing()
+                shapeAntialiasing()
                 rendering(Quality)
             }
             fun drawAndFill(

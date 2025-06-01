@@ -9,10 +9,17 @@ import java.awt.Graphics2D
 import java.awt.RenderingHints
 
 class Graphics2dHintBuilder(private val g2d: Graphics2D) : HintBuilder {
-    override fun antialiasing(enabled: Boolean) {
+    override fun shapeAntialiasing(enabled: Boolean) {
         g2d.setRenderingHint(
             RenderingHints.KEY_ANTIALIASING,
             if (enabled) RenderingHints.VALUE_ANTIALIAS_ON else RenderingHints.VALUE_ANTIALIAS_OFF
+        )
+    }
+
+    override fun textAntialiasing(enabled: Boolean) {
+        g2d.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            if (enabled) RenderingHints.VALUE_TEXT_ANTIALIAS_ON else RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
         )
     }
 
