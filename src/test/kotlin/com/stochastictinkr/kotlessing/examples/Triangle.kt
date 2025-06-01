@@ -41,7 +41,7 @@ fun main() {
                 close()
             }
             fill(equilateralTriangle)
-            stroke(width = 4f, cap = Round, join = Round)
+            stroke(width = 4f, cap = Stroke.Cap.Round, join = Stroke.Join.Round)
             color(.25f, .25f, .25f)
             draw(equilateralTriangle)
         }

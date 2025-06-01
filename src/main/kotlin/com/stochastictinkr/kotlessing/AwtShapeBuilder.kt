@@ -1,6 +1,8 @@
-package kotlessing
+package com.stochastictinkr.kotlessing
 
-import java.awt.geom.*
+import kotlessing.Shape
+import kotlessing.ShapeBuilder
+import java.awt.geom.Path2D
 
 @PublishedApi
 internal class AwtShapeBuilder() : ShapeBuilder {

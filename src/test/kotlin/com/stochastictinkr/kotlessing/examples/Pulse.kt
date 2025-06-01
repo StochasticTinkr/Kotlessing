@@ -1,6 +1,7 @@
 package com.stochastictinkr.kotlessing.examples
 
 import kotlessing.*
+import kotlessing.Stroke
 import kotlin.math.*
 
 private const val period = 1500f
@@ -78,11 +79,11 @@ fun main() = runSketch {
         }
 
         color(0.0f, 0.0f, 0.0f, 0.5f)
-        stroke(width = 10f, join = Bevel)
+        stroke(width = 10f, join = Stroke.Join.Bevel)
         draw(ecg)
 
         color(0.0f, 0.8f, 0.2f, 0.5f)
-        stroke(width = 3f, join = Bevel)
+        stroke(width = 3f, join = Stroke.Join.Bevel)
         draw(ecg)
 
         // Draw a small circle at the peak of the ECG waveform

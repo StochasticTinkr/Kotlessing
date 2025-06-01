@@ -2,6 +2,7 @@ package com.stochastictinkr.kotlessing
 
 import kotlessing.*
 import kotlessing.Shape
+import kotlessing.Stroke
 import java.awt.*
 import kotlin.time.*
 import java.awt.Color as AwtColor
@@ -33,22 +34,25 @@ class AwtDrawContext(
 
     override fun stroke(
         width: Float,
-        cap: StrokeCap,
-        join: StrokeJoin,
+        cap: Stroke.Cap,
+        join: Stroke.Join,
         dash: Dash,
     ) {
         val cap = when (cap) {
-            Square -> BasicStroke.CAP_SQUARE
-            Butt -> BasicStroke.CAP_BUTT
-            Round -> BasicStroke.CAP_ROUND
+            Stroke.Cap.Square -> BasicStroke.CAP_SQUARE
+            Stroke.Cap.Butt -> BasicStroke.CAP_BUTT
+            Stroke.Cap.Round -> BasicStroke.CAP_ROUND
         }
         val (join, miterLimit) = when (join) {
-            Round -> BasicStroke.JOIN_ROUND to 0f
-            is Miter -> BasicStroke.JOIN_MITER to join.limit
-            Bevel -> BasicStroke.JOIN_BEVEL to 0f
+            Stroke.Join.Round -> BasicStroke.JOIN_ROUND to 0f
+            is Stroke.Join.Miter -> BasicStroke.JOIN_MITER to join.limit
+            Stroke.Join.Bevel -> BasicStroke.JOIN_BEVEL to 0f
         }
-        // TODO: Handle dash pattern
-        g2d.stroke = BasicStroke(width, cap, join, miterLimit)
+        g2d.stroke = BasicStroke(
+            width, cap, join, miterLimit,
+            dash.pattern,
+            dash.phase
+        )
     }
 
     override fun color(r: Float, g: Float, b: Float, a: Float) {

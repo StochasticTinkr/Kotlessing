@@ -23,6 +23,3 @@ data class Vec2(val x: Float, val y: Float) {
 }
 
 operator fun Float.times(vec: Vec2): Vec2 = vec * this
-
-val X = Vec2(1f, 0f)
-val Y = Vec2(0f, 1f)

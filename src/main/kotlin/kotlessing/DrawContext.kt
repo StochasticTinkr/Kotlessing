@@ -22,9 +22,9 @@ interface DrawContext : Inputs {
 
     fun stroke(
         width: Float = 1f,
-        cap: StrokeCap = Butt,
-        join: StrokeJoin = Miter(10f),
-        dash: Dash = Solid,
+        cap: Stroke.Cap = Stroke.Cap.Butt,
+        join: Stroke.Join = Stroke.Join.Miter(10f),
+        dash: Dash = Dash.Solid,
     )
 
     fun fill(shapeBuilder: ShapeBuilder.() -> Unit) =
@@ -35,20 +35,3 @@ interface DrawContext : Inputs {
     fun fill(shape: Shape)
     fun draw(shape: Shape)
 }
-
-sealed interface StrokeCap
-sealed interface StrokeJoin
-
-data object Square : StrokeCap
-data object Butt : StrokeCap
-data object Round : StrokeCap, StrokeJoin
-data class Miter(
-    val limit: Float = 10f,
-) : StrokeJoin
-
-data object Bevel : StrokeJoin
-
-interface Dash
-
-data object Solid : Dash
-

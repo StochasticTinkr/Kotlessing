@@ -1,5 +1,6 @@
 package kotlessing
 
+import com.stochastictinkr.kotlessing.AwtShapeBuilder
 import java.awt.Shape as AWTShape
 
 @JvmInline
