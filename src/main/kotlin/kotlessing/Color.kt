@@ -8,6 +8,20 @@ data class Color(
     val b: Float,
     val a: Float = 1f,
 ) {
+    internal fun toAwtColor() = java.awt.Color(
+        (r * 255).toInt(),
+        (g * 255).toInt(),
+        (b * 255).toInt(),
+        (a * 255).toInt()
+    )
+
+    internal constructor(awtColor: java.awt.Color) : this(
+        awtColor.red / 255f,
+        awtColor.green / 255f,
+        awtColor.blue / 255f,
+        awtColor.alpha / 255f
+    )
+
     constructor(r: Int, g: Int, b: Int, a: Int = 255) : this(
         r / 255f,
         g / 255f,

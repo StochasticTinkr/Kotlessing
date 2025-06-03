@@ -42,7 +42,35 @@ class SketchFrame {
 
                 override fun frameRate(rate: Int) {
                     frameRate = rate
+                }
 
+                override fun settingsPanel(panel: SettingsPanel) {
+                    val panelComponent = JPanel()
+                    panelComponent.layout = GridBagLayout()
+                    panelComponent.preferredSize = Dimension(200, 0)
+                    panel.settings.forEachIndexed { row, setting ->
+                        val label = setting.labelComponent
+                        val component = setting.component
+                        val constraints = GridBagConstraints().apply {
+                            fill = GridBagConstraints.HORIZONTAL
+                            weightx = 1.0
+                            insets = Insets(5, 5, 5, 5)
+                        }
+                        if (label != null) {
+                            constraints.gridx = 0
+                            constraints.gridy = row
+                            panelComponent.add(label, constraints)
+                            constraints.gridx = 1
+                            panelComponent.add(component, constraints)
+                        } else {
+                            constraints.gridx = 0
+                            constraints.gridy = row
+                            constraints.gridwidth = 2
+                            panelComponent.add(component, constraints)
+                        }
+                    }
+                    frame.contentPane.add(panelComponent, BorderLayout.EAST)
+                    frame.pack()
                 }
             }.init()
         }
