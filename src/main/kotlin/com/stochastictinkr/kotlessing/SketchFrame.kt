@@ -17,7 +17,6 @@ class SketchFrame {
 
     init {
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        frame.contentPane.add(canvas)
         ThemeManager.addRoot(frame)
     }
 
@@ -26,6 +25,7 @@ class SketchFrame {
 
     fun show() {
         var frameRate = 0
+        var settingsPanel: SettingsPanel? = null
         sketch?.run {
             object : InitContext {
                 override fun name(name: String) {
@@ -45,34 +45,23 @@ class SketchFrame {
                 }
 
                 override fun settingsPanel(panel: SettingsPanel) {
-                    val panelComponent = JPanel()
-                    panelComponent.layout = GridBagLayout()
-                    panelComponent.preferredSize = Dimension(200, 0)
-                    panel.settings.forEachIndexed { row, setting ->
-                        val label = setting.labelComponent
-                        val component = setting.component
-                        val constraints = GridBagConstraints().apply {
-                            fill = GridBagConstraints.HORIZONTAL
-                            weightx = 1.0
-                            insets = Insets(5, 5, 5, 5)
-                        }
-                        if (label != null) {
-                            constraints.gridx = 0
-                            constraints.gridy = row
-                            panelComponent.add(label, constraints)
-                            constraints.gridx = 1
-                            panelComponent.add(component, constraints)
-                        } else {
-                            constraints.gridx = 0
-                            constraints.gridy = row
-                            constraints.gridwidth = 2
-                            panelComponent.add(component, constraints)
-                        }
-                    }
-                    frame.contentPane.add(panelComponent, BorderLayout.EAST)
-                    frame.pack()
+                    settingsPanel = panel
                 }
             }.init()
+        }
+        frame.contentPane.removeAll()
+        // if settingsPanel is not null, use JSplitPane to show it alongside the canvas
+        // otherwise just add the canvas
+        settingsPanel?.also {
+            val splitPane = JSplitPane(JSplitPane.HORIZONTAL_SPLIT)
+            splitPane.leftComponent = it.component
+            splitPane.rightComponent = canvas
+            frame.contentPane.add(splitPane)
+            it.listener = {
+                canvas.repaint()
+            }
+        } ?: run {
+            frame.contentPane.add(canvas)
         }
 
         if (frameRate > 0) {
@@ -89,5 +78,7 @@ class SketchFrame {
     }
 }
 
-class AwtUpdateContext(inputs: Inputs) : UpdateContext, Inputs by inputs
+class AwtUpdateContext(inputs: Inputs) : UpdateContext, Inputs by inputs {
+    override fun showSettings(panel: SettingsPanel) = TODO("Not yet implemented")
+}
 

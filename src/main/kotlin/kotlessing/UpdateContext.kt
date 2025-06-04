@@ -1,4 +1,6 @@
 package kotlessing
 
 @SketchDsl
-interface UpdateContext : Inputs
+interface UpdateContext : Inputs {
+    fun showSettings(panel: SettingsPanel)
+}
